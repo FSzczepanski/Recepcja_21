@@ -35,7 +35,7 @@ public class BazaDanychHotele {
     
     
      public void dodajHotel(String nazwaHotelu, String miasto, int liczbaGwiazdek, boolean calodobowaRecepcja, boolean basen) {
-    try {
+        try {
          
             initConnection();
             CallableStatement procedura =
@@ -48,11 +48,11 @@ public class BazaDanychHotele {
             procedura.execute();
                     
             polaczenie.close();
-    }
-    catch(Exception e) {
-        JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
-        "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
-    }
+        }
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
+                "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
+        }
     }
      
      
@@ -60,7 +60,7 @@ public class BazaDanychHotele {
          
          ArrayList<Hotel> hotele = new ArrayList();
          
-    try {
+        try {
             initConnection();
             PreparedStatement ps =
                     polaczenie.prepareCall("{call dbo.pobierzHotel()}");
@@ -77,19 +77,19 @@ public class BazaDanychHotele {
           
             
             polaczenie.close();
-    }
-    catch(Exception e) {
-        JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
-        "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
-    }
-    return hotele;
+        }
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
+                "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
+        }
+        return hotele;
     }
      
      
      public void modyfikujHotel(int id, String nazwaHotelu, String miasto, int liczbaGwiazdek, boolean calodobowaRecepcja, boolean basen) {
          
      
-    try {
+        try {
             initConnection();
             CallableStatement procedura =
                     polaczenie.prepareCall("{call dbo.modyfikujHotel(?,?,?,?,?,?)}");
@@ -104,16 +104,16 @@ public class BazaDanychHotele {
       
             
             polaczenie.close();
-    }
-    catch(Exception e) {
-        JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
-        "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
-    }
+        }
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
+                "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
+        }
     }
      
      
      public void usunHotel(int id) {
-    try {
+        try {
             initConnection();
             CallableStatement procedura =
                     polaczenie.prepareCall("{call dbo.usunHotel(?)}");
@@ -122,11 +122,11 @@ public class BazaDanychHotele {
             procedura.execute();
                     
             polaczenie.close();
-    }
-    catch(Exception e) {
-        JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
-        "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
-    }
+        }
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
+                "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
+        }
     }
      
      

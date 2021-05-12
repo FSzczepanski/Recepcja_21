@@ -36,13 +36,13 @@ public class BazaDanychRezerwacje {
     
     
      public void dodajRezerwacje(int id_hotelu, int id_klienta, int id_pokoju, Date data_przyjazdu, Date data_wyjazdu) {
-    try {
+        try {
          
             initConnection();
             CallableStatement procedura =
                         polaczenie.prepareCall("{call dbo.dodajRezerwacje(?,?,?,?,?)}");
             procedura.setInt(1, id_hotelu);
-            procedura.setInt(2,id_hotelu);
+            procedura.setInt(2,id_klienta);
             procedura.setInt(3,id_pokoju);
            procedura.setDate(4,new java.sql.Date(data_przyjazdu.getTime()));
             procedura.setDate(5,new java.sql.Date(data_wyjazdu.getTime()));
@@ -50,11 +50,11 @@ public class BazaDanychRezerwacje {
             
                     
             polaczenie.close();
-    }
-    catch(Exception e) {
+        }
+        catch(Exception e) {
         JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
         "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
-    }
+        }
     }
      
      
@@ -62,7 +62,7 @@ public class BazaDanychRezerwacje {
          
          ArrayList<Rezerwacja> rezerwacje = new ArrayList();
          
-    try {
+        try {
             initConnection();
             PreparedStatement ps =
                     polaczenie.prepareCall("{call dbo.pobierzRezerwacje(?)}");
@@ -88,11 +88,11 @@ public class BazaDanychRezerwacje {
           
             
             polaczenie.close();
-    }
-    catch(Exception e) {
+        }
+        catch(Exception e) {
         JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
         "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
-    }
+        }
     return rezerwacje;
     }
      
@@ -100,14 +100,14 @@ public class BazaDanychRezerwacje {
      public void modyfikujRezerwacje(int id, int id_hotelu, int id_klienta, int id_pokoju, Date data_przyjazdu, Date data_wyjazdu) {
          
      
-    try {
+        try {
             initConnection();
             CallableStatement procedura =
                     polaczenie.prepareCall("{call dbo.modyfikujRezerwacje(?,?,?,?,?,?)}");
             
             procedura.setInt(1, id);
             procedura.setInt(2, id_hotelu);
-            procedura.setInt(3,id_hotelu);
+            procedura.setInt(3,id_klienta);
             procedura.setInt(4,id_pokoju);
            procedura.setDate(5,new java.sql.Date(data_przyjazdu.getTime()));
             procedura.setDate(6,new java.sql.Date(data_wyjazdu.getTime()));
@@ -115,16 +115,16 @@ public class BazaDanychRezerwacje {
       
             
             polaczenie.close();
-    }
-    catch(Exception e) {
+        }
+        catch(Exception e) {
         JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
         "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
-    }
+        }
     }
      
      
      public void usunRezerwacje(int id) {
-    try {
+        try {
             initConnection();
             CallableStatement procedura =
                     polaczenie.prepareCall("{call dbo.usunRezerwacje(?)}");
@@ -133,11 +133,11 @@ public class BazaDanychRezerwacje {
             procedura.execute();
                     
             polaczenie.close();
-    }
-    catch(Exception e) {
+        }
+        catch(Exception e) {
         JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
         "Błąd aplikacji",JOptionPane.ERROR_MESSAGE);
-    }
+        }
     }
      
      
