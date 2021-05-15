@@ -5,19 +5,64 @@
  */
 package recepcja.frontend;
 
-/**
- *
- * @author Filip Szczepanski
- */
-public class PokojeFrame extends javax.swing.JFrame {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import javax.naming.spi.InitialContextFactory;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import recepcja.backend.BazaDanychHotele;
+import recepcja.backend.BazaDanychPokoje;
+import recepcja.backend.BazaDanychRezerwacje;
+import recepcja.entities.Adres;
+import recepcja.entities.Hotel;
+import recepcja.entities.Klient;
+import recepcja.entities.Pokoj;
+import recepcja.entities.Rezerwacja;
 
-    /**
-     * Creates new form PokojeFrame
-     */
+
+public class PokojeFrame extends javax.swing.JFrame {
+    
+    private BazaDanychPokoje bd;
+    private ArrayList<Pokoj> pokoje;
+    
+    
+
     public PokojeFrame() {
         initComponents();
+        
+        bd = new BazaDanychPokoje();
+        initTable();
     }
 
+        private void initTable(){
+        pokoje = bd.pobierzPokoje();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        for (Pokoj pokoj: pokoje) {
+            Object[] row = {pokoj.getId(),pokoj.getHotel(),pokoj.getNumerPokoju(), pokoj.getPietro(),
+                pokoj.getIloscOsob(), pokoj.isPrywatnaLazienka(), pokoj.getCenaZaDobe()};
+            
+             model.addRow(row);
+        } 
+    }
+    
+          private void clearTable(){
+        DefaultTableModel dm = (DefaultTableModel) jTable1.getModel();
+        int rowCount = dm.getRowCount();
+        
+        for (int i = rowCount - 1; i >= 0; i--) {
+            dm.removeRow(i);
+            }
+        }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,19 +72,322 @@ public class PokojeFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDesktopPane1 = new javax.swing.JDesktopPane();
+        ePietro = new javax.swing.JTextField();
+        bDodajPokoj = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        eNumerPokoju = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        cbPrywatnaLazienka = new javax.swing.JCheckBox();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        bEdytuj = new javax.swing.JButton();
+        bUsun = new javax.swing.JButton();
+        eID = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        eIloscOsob = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        eCenaZaDobe = new javax.swing.JTextField();
+        eIdHotelu = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
+        ePietro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ePietroActionPerformed(evt);
+            }
+        });
+
+        bDodajPokoj.setText("Dodaj");
+        bDodajPokoj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDodajPokojActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
+        jLabel6.setText("Dodaj  pokój");
+        jLabel6.setBorder(new javax.swing.border.MatteBorder(null));
+
+        jLabel2.setText("Numer pokoju");
+
+        eNumerPokoju.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eNumerPokojuActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Prywatna łazienka");
+
+        jLabel1.setText("ID hotelu");
+
+        cbPrywatnaLazienka.setToolTipText("");
+        cbPrywatnaLazienka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbPrywatnaLazienkaActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Piętro");
+
+        jLabel4.setText("Ilość osób");
+
+        bEdytuj.setText("Edytuj");
+        bEdytuj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEdytujActionPerformed(evt);
+            }
+        });
+
+        bUsun.setText("Usuń");
+        bUsun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bUsunActionPerformed(evt);
+            }
+        });
+
+        eID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eIDActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("podaj id");
+
+        eIloscOsob.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eIloscOsobActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Cena za dobę");
+
+        eCenaZaDobe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eCenaZaDobeActionPerformed(evt);
+            }
+        });
+
+        eIdHotelu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eIdHoteluActionPerformed(evt);
+            }
+        });
+
+        jDesktopPane1.setLayer(ePietro, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(bDodajPokoj, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(eNumerPokoju, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(cbPrywatnaLazienka, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(bEdytuj, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(bUsun, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(eID, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(eIloscOsob, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(eCenaZaDobe, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(eIdHotelu, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addComponent(bDodajPokoj, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(83, 83, 83))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                                    .addComponent(bEdytuj, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(bUsun, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jDesktopPane1Layout.createSequentialGroup()
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(eID, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(38, 38, 38)
+                                .addComponent(cbPrywatnaLazienka, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(43, 43, 43))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
+                        .addGap(29, 29, 29)
+                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(eNumerPokoju, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                            .addComponent(ePietro)
+                            .addComponent(eIloscOsob)
+                            .addComponent(eIdHotelu, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
+                        .addGap(22, 22, 22))
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(eCenaZaDobe, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22))))
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addGap(29, 29, 29)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(eIdHotelu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(eNumerPokoju, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(ePietro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(eIloscOsob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(cbPrywatnaLazienka))
+                .addGap(18, 18, 18)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(eCenaZaDobe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(bDodajPokoj)
+                .addGap(18, 18, 18)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(eID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bEdytuj)
+                    .addComponent(bUsun))
+                .addGap(15, 15, 15))
+        );
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Numer pokoju", "Piętro", "Ilość osób", "Prywatna łazienka", "Cena za dobę"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bDodajPokojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDodajPokojActionPerformed
+        clearTable();
+        bd.dodajPokoj(Integer.parseInt(eIdHotelu.getText()), Integer.parseInt(eNumerPokoju.getText()),
+                Integer.parseInt(ePietro.getText()),Integer.parseInt(eIloscOsob.getText()),
+                cbPrywatnaLazienka.isSelected(), Integer.parseInt(eCenaZaDobe.getText()));
+        initTable();
+    }//GEN-LAST:event_bDodajPokojActionPerformed
+
+    private void bEdytujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEdytujActionPerformed
+        clearTable();
+        bd.modyfikujPokoj(Integer.parseInt(eID.getText()), Integer.parseInt(eIdHotelu.getText()),
+                Integer.parseInt(eNumerPokoju.getText()),Integer.parseInt(ePietro.getText()),
+                Integer.parseInt(eIloscOsob.getText()), cbPrywatnaLazienka.isSelected(),
+                Integer.parseInt(eCenaZaDobe.getText()));
+        initTable();
+    }//GEN-LAST:event_bEdytujActionPerformed
+
+    private void bUsunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUsunActionPerformed
+        clearTable();
+        bd.usunPokoj(Integer.parseInt(eID.getText()));
+        initTable();
+    }//GEN-LAST:event_bUsunActionPerformed
+
+    private void eNumerPokojuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eNumerPokojuActionPerformed
+
+    }//GEN-LAST:event_eNumerPokojuActionPerformed
+
+    private void ePietroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ePietroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ePietroActionPerformed
+
+    private void eIloscOsobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eIloscOsobActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eIloscOsobActionPerformed
+
+    private void cbPrywatnaLazienkaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPrywatnaLazienkaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbPrywatnaLazienkaActionPerformed
+
+    private void eCenaZaDobeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eCenaZaDobeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eCenaZaDobeActionPerformed
+
+    private void eIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eIDActionPerformed
+
+    private void eIdHoteluActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eIdHoteluActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eIdHoteluActionPerformed
 
     /**
      * @param args the command line arguments
@@ -77,5 +425,26 @@ public class PokojeFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bDodajPokoj;
+    private javax.swing.JButton bEdytuj;
+    private javax.swing.JButton bUsun;
+    private javax.swing.JCheckBox cbPrywatnaLazienka;
+    private javax.swing.JTextField eCenaZaDobe;
+    private javax.swing.JTextField eID;
+    private javax.swing.JTextField eIdHotelu;
+    private javax.swing.JTextField eIloscOsob;
+    private javax.swing.JTextField eNumerPokoju;
+    private javax.swing.JTextField ePietro;
+    private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
