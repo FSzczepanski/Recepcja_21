@@ -5,8 +5,12 @@
         <group>
             <file>file:/C:/Users/Filip%20Szczepanski/Documents/NetBeansProjects/Recepcja/src/recepcja/backend/BazaDanychPokoje.java</file>
             <file>file:/C:/Users/Filip%20Szczepanski/Documents/NetBeansProjects/Recepcja/src/recepcja/frontend/PokojeFrame.java</file>
+            <file>file:/C:/Users/Filip%20Szczepanski/Documents/NetBeansProjects/Recepcja/src/recepcja/backend/Start.java</file>
+            <file>file:/C:/Users/Filip%20Szczepanski/Documents/NetBeansProjects/Recepcja/src/recepcja/backend/BazaDanychRezerwacje.java</file>
+            <file>file:/C:/Users/Filip%20Szczepanski/Documents/NetBeansProjects/Recepcja/src/recepcja/backend/BazaDanychKlienci.java</file>
+            <file>file:/C:/Users/Filip%20Szczepanski/Documents/NetBeansProjects/Recepcja/src/recepcja/backend/BazaDanychAdresy.java</file>
             <file>file:/C:/Users/Filip%20Szczepanski/Documents/NetBeansProjects/Recepcja/src/recepcja/frontend/KlienciFrame.java</file>
-            <file>file:/C:/Users/Filip%20Szczepanski/Documents/NetBeansProjects/Recepcja/src/recepcja/backend/BazaDanychHotele.java</file>
+            <file>file:/C:/Users/Filip%20Szczepanski/Documents/NetBeansProjects/Recepcja/src/recepcja/frontend/AdresyFrame.java</file>
             <file>file:/C:/Users/Filip%20Szczepanski/Documents/NetBeansProjects/Recepcja/src/recepcja/frontend/StartFrame.java</file>
         </group>
     </open-files>

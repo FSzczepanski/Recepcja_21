@@ -56,14 +56,16 @@ public class BazaDanychPokoje {
     }
     
      
-     public ArrayList pobierzPokoje() {
+     public ArrayList pobierzPokoje(int id_hotelu) {
          
          ArrayList<Pokoj> pokoje = new ArrayList();
          
          try {
             initConnection();
             PreparedStatement ps =
-                polaczenie.prepareCall("{call dbo.pobierzPokoj()}");
+                polaczenie.prepareCall("{call dbo.pobierzPokoj(?)}");
+            ps.setInt(1, id_hotelu);
+            ps.execute();
             
             ResultSet rezultat = ps.executeQuery();
             while(rezultat.next()){

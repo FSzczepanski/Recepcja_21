@@ -27,15 +27,15 @@ public class BazaDanychKlienci {
     private void initConnection(){
         try{
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection polaczenie=DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost\\sqlexpress;databaseName=pab_ZALICZENIE",
-                    "recepcjonista", "admin123");
+             polaczenie= DriverManager.getConnection(
+            "jdbc:sqlserver://localhost\\sqlexpress;da6tabaseName=pab_zaliczenie",
+                    "recepcjonista","s2232haslo");
         }
         catch(Exception e) {
             JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
             "Błąd polaczenia",JOptionPane.ERROR_MESSAGE);
         }
-    }
+    } 
     
     
      public void dodajKlienta(int id_adresu, String imie, String nazwisko, String numerTelefonu) {
@@ -44,7 +44,7 @@ public class BazaDanychKlienci {
             initConnection();
             CallableStatement procedura =
                         polaczenie.prepareCall("{call dbo.dodajKlienta(?,?,?,?)}");
-            procedura.setInt(1,111);
+            procedura.setInt(1,id_adresu);
             procedura.setString(2,imie);
             procedura.setString(3,nazwisko);
             procedura.setString(4,numerTelefonu);
@@ -77,7 +77,7 @@ public class BazaDanychKlienci {
                         adres,
                         rezultat.getString("imie"),
                         rezultat.getString("nazwisko"),
-                        rezultat.getString("numerTelefonu")));
+                        rezultat.getString("nr_telefonu")));
             }
           
             

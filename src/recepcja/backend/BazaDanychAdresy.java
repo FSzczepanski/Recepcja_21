@@ -31,13 +31,13 @@ public class BazaDanychAdresy {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
              polaczenie= DriverManager.getConnection(
             "jdbc:sqlserver://localhost\\sqlexpress;da6tabaseName=pab_zaliczenie",
-                    "recepcjonista","admin123");
+                    "recepcjonista","s2232haslo");
         }
         catch(Exception e) {
             JOptionPane.showMessageDialog(null,"Błąd "+e.getMessage(),
             "Błąd polaczenia",JOptionPane.ERROR_MESSAGE);
         }
-    }
+    } 
      
      
     public void dodajAdres(String miasto, String kodPocztowy, String ulica, String numer){
@@ -60,7 +60,7 @@ public class BazaDanychAdresy {
         }
     }
     
-    public ArrayList pobierzAdres() {
+    public ArrayList pobierzAdresy() {
          
          ArrayList<Adres> adresy = new ArrayList();
          
@@ -73,7 +73,7 @@ public class BazaDanychAdresy {
             while(rezultat.next()){
                 adresy.add(new Adres(rezultat.getInt("id_adresu"),
                         rezultat.getString("miasto"),
-                        rezultat.getString("kodPcztowy"),
+                        rezultat.getString("kod_pocztowy"),
                         rezultat.getString("ulica"),
                         rezultat.getString("numer")));
             }
@@ -98,13 +98,13 @@ public class BazaDanychAdresy {
              ps.setInt(1,id);
             
             ps.execute();
-            
+             
             ResultSet rezultat = ps.executeQuery();
             while(rezultat.next()){
             
                 adres = new Adres(rezultat.getInt("id_adresu"),
                         rezultat.getString("miasto"),
-                        rezultat.getString("kodPocztowy"),
+                        rezultat.getString("kod_pocztowy"),
                         rezultat.getString("ulica"),
                         rezultat.getString("numer"));
             }

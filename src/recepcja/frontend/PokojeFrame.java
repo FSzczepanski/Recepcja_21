@@ -34,20 +34,25 @@ public class PokojeFrame extends javax.swing.JFrame {
         initComponents();
         
         bd = new BazaDanychPokoje();
+        initComboBox();
         initTable();
-        initComboBoxes();
+        
     }
 
         private void initTable(){
-        pokoje = bd.pobierzPokoje();
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        for (Pokoj pokoj: pokoje) {
-            Object[] row = {pokoj.getId(),pokoj.getHotel().getNazwaHotelu(),pokoj.getNumerPokoju(), pokoj.getPietro(),
-                pokoj.getIloscOsob(), pokoj.isPrywatnaLazienka(), pokoj.getCenaZaDobe()+" zł"};
-            
-             model.addRow(row);
-        } 
-    }
+            String idString = ComboHoteleListaPokoi.getSelectedItem().toString();
+            String[] tab = idString.split("");
+            int id = Integer.parseInt(tab[0]);
+
+            pokoje = bd.pobierzPokoje(id);
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            for (Pokoj pokoj: pokoje) {
+                Object[] row = {pokoj.getId(),pokoj.getHotel().getNazwaHotelu(),pokoj.getNumerPokoju(), pokoj.getPietro(),
+                    pokoj.getIloscOsob(), pokoj.isPrywatnaLazienka(), pokoj.getCenaZaDobe()+" zł"};
+
+                 model.addRow(row);
+            } 
+        }
     
           private void clearTable(){
         DefaultTableModel dm = (DefaultTableModel) jTable1.getModel();
@@ -58,7 +63,7 @@ public class PokojeFrame extends javax.swing.JFrame {
             }
         }
           
-          private void initComboBoxes(){
+          private void initComboBox(){
         ArrayList<Hotel> hotele= new ArrayList<>();
          BazaDanychHotele bdH = new BazaDanychHotele();
         hotele = bdH.pobierzHotele();
@@ -66,7 +71,16 @@ public class PokojeFrame extends javax.swing.JFrame {
         for (int i = 0; i < hotele.size(); i++) {
             String x = hotele.get(i).getId()+"."+hotele.get(i).getNazwaHotelu();
             ComboHotele.addItem(x);
+            ComboHoteleListaPokoi.addItem(x);
         }
+        
+        ComboHoteleListaPokoi.addActionListener (new ActionListener () {
+    public void actionPerformed(ActionEvent e) {
+        clearTable();
+        initTable();
+         
+      }
+        });
         
         }
      
@@ -100,10 +114,11 @@ public class PokojeFrame extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         eCenaZaDobe = new javax.swing.JTextField();
         ComboHotele = new javax.swing.JComboBox<>();
+        jDesktopPane2 = new javax.swing.JDesktopPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        ComboHoteleListaPokoi = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
         ePietro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,7 +147,7 @@ public class PokojeFrame extends javax.swing.JFrame {
 
         jLabel5.setText("Prywatna łazienka");
 
-        jLabel3.setText("ID hotelu");
+        jLabel3.setText("Hotel");
 
         cbPrywatnaLazienka.setToolTipText("");
         cbPrywatnaLazienka.addActionListener(new java.awt.event.ActionListener() {
@@ -316,28 +331,59 @@ public class PokojeFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jDesktopPane2.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jDesktopPane2Layout = new javax.swing.GroupLayout(jDesktopPane2);
+        jDesktopPane2.setLayout(jDesktopPane2Layout);
+        jDesktopPane2Layout.setHorizontalGroup(
+            jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jDesktopPane2Layout.setVerticalGroup(
+            jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jLabel1.setText("Wybierz Hotel");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
+                .addContainerGap()
+                .addComponent(jDesktopPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ComboHoteleListaPokoi, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(89, 89, 89)
-                        .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(80, Short.MAX_VALUE))
+                        .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(ComboHoteleListaPokoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
+                        .addComponent(jDesktopPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         pack();
@@ -437,6 +483,7 @@ public class PokojeFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboHotele;
+    private javax.swing.JComboBox<String> ComboHoteleListaPokoi;
     private javax.swing.JButton bDodajPokoj;
     private javax.swing.JButton bEdytuj;
     private javax.swing.JButton bUsun;
@@ -447,6 +494,8 @@ public class PokojeFrame extends javax.swing.JFrame {
     private javax.swing.JTextField eNumerPokoju;
     private javax.swing.JTextField ePietro;
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JDesktopPane jDesktopPane2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

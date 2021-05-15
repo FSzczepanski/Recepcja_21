@@ -20,6 +20,8 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import recepcja.backend.BazaDanychHotele;
+import recepcja.backend.BazaDanychKlienci;
+import recepcja.backend.BazaDanychPokoje;
 import recepcja.backend.BazaDanychRezerwacje;
 import recepcja.entities.Adres;
 import recepcja.entities.Hotel;
@@ -39,13 +41,17 @@ public class StartFrame extends javax.swing.JFrame {
     HoteleFrame hf;
     PokojeFrame pf;
     KlienciFrame kf;
+    AdresyFrame af;
     
     public StartFrame() {
         initComponents();
         bd = new BazaDanychRezerwacje();
         initFrames();
         
-        initComboBoxes();
+        initComboBoxesHotels();
+        initComboBoxClients();
+        initComboBoxRooms();
+        comboBoxListeners();
         initTable();
     }
     
@@ -62,9 +68,30 @@ public class StartFrame extends javax.swing.JFrame {
         kf = new KlienciFrame();
         kf.setTitle("Klienci");
         kf.setSize(800,580);     
+        
+        af = new AdresyFrame();
+        af.setTitle("Adresy");
+        af.setSize(800,580);   
     }
     
-    private void initComboBoxes(){
+    private void comboBoxListeners(){
+    
+         rComboKlienci.addActionListener (new ActionListener () {
+    public void actionPerformed(ActionEvent e) {
+            rComboKlienci.removeAllItems();
+            initComboBoxClients();
+        }
+      });
+         
+         rComboPokoje.addActionListener (new ActionListener () {
+    public void actionPerformed(ActionEvent e) {
+            rComboPokoje.removeAllItems();
+            initComboBoxRooms();
+        }
+      });
+    }
+      private void initComboBoxesHotels(){
+        //hotele
         ArrayList<Hotel> hotele= new ArrayList<>();
          BazaDanychHotele bdH = new BazaDanychHotele();
         hotele = bdH.pobierzHotele();
@@ -75,29 +102,7 @@ public class StartFrame extends javax.swing.JFrame {
             rComboHotele.addItem(x);
         }
         
-        comboHotels.setSelectedIndex(0);
-        
-        ArrayList<Klient> klienci = new ArrayList();
-        ArrayList<Pokoj> pokoje = new ArrayList();
-        //temp
-        Klient klient = new Klient(51, new Adres(64, "miasto", "kod", "ul", "nr"), "imie", "nazwisko", "nrtel");
-        Pokoj pokoj = new Pokoj(52,hotele.get(1),3,4,4,true,420);
-        klienci.add(klient);
-        klienci.add(klient);
-        pokoje.add(pokoj);
-        pokoje.add(pokoj);
-        //temp
-        
-        for (int i = 0; i < klienci.size(); i++) {
-            String x = klienci.get(i).getId()+"."+klienci.get(i).getImie()+" "+klienci.get(i).getNazwisko();
-            rComboKlienci.addItem(x);
-        }
-        
-        for (int i = 0; i < pokoje.size(); i++) {
-            String x = pokoje.get(i).getId()+"."+pokoje.get(i).getNumerPokoju();
-            rComboPokoje.addItem(x);
-        }
-        
+     
         
         comboHotels.addActionListener (new ActionListener () {
     public void actionPerformed(ActionEvent e) {
@@ -105,8 +110,61 @@ public class StartFrame extends javax.swing.JFrame {
         initTable();
         }
       });
+        
+       rComboHotele.addActionListener (new ActionListener () {
+    public void actionPerformed(ActionEvent e) {
+        rComboPokoje.removeAllItems();
+         ArrayList<Pokoj> pokoje = new ArrayList();
+         BazaDanychPokoje bdP = new BazaDanychPokoje();
+         
+         String idString = rComboHotele.getSelectedItem().toString();
+        String[] tab = idString.split("");
+        int id = Integer.parseInt(tab[0]);
+        
+        pokoje = bdP.pobierzPokoje(id);
+      
+        
+        for (int i = 0; i < pokoje.size(); i++) {
+            String x = pokoje.get(i).getId()+"."+pokoje.get(i).getNumerPokoju();
+            rComboPokoje.addItem(x);
+        }
+        }
+      });
 
     }
+      
+    private void initComboBoxClients(){
+         //klienci
+        ArrayList<Klient> klienci = new ArrayList();
+         BazaDanychKlienci bdK = new BazaDanychKlienci();
+        klienci = bdK.pobierzKlientow();
+        
+         for (int i = 0; i < klienci.size(); i++) {
+            String x = klienci.get(i).getId()+"."+klienci.get(i).getImie()+" "+klienci.get(i).getNazwisko();
+            rComboKlienci.addItem(x);
+        }
+    }
+    
+    private void initComboBoxRooms(){
+            
+         //pokoje
+        ArrayList<Pokoj> pokoje = new ArrayList();
+         BazaDanychPokoje bdP = new BazaDanychPokoje();
+         
+         String idString = rComboHotele.getSelectedItem().toString();
+        String[] tab = idString.split("");
+        int id = Integer.parseInt(tab[0]);
+        
+        pokoje = bdP.pobierzPokoje(id);
+      
+        
+        for (int i = 0; i < pokoje.size(); i++) {
+            String x = pokoje.get(i).getId()+"."+pokoje.get(i).getNumerPokoju();
+            rComboPokoje.addItem(x);
+        }
+    }
+    
+  
     
     
     private void initTable(){
@@ -190,8 +248,9 @@ public class StartFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menuHotele = new javax.swing.JMenuItem();
-        menuKlienci = new javax.swing.JMenuItem();
         menuPokoje = new javax.swing.JMenuItem();
+        menuKlienci = new javax.swing.JMenuItem();
+        menuAdresy = new javax.swing.JMenuItem();
         menuZakoncz = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -418,6 +477,14 @@ public class StartFrame extends javax.swing.JFrame {
         });
         jMenu1.add(menuHotele);
 
+        menuPokoje.setText("Pokoje");
+        menuPokoje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPokojeActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuPokoje);
+
         menuKlienci.setText("Klienci");
         menuKlienci.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -426,13 +493,13 @@ public class StartFrame extends javax.swing.JFrame {
         });
         jMenu1.add(menuKlienci);
 
-        menuPokoje.setText("Pokoje");
-        menuPokoje.addActionListener(new java.awt.event.ActionListener() {
+        menuAdresy.setText("Adresy");
+        menuAdresy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuPokojeActionPerformed(evt);
+                menuAdresyActionPerformed(evt);
             }
         });
-        jMenu1.add(menuPokoje);
+        jMenu1.add(menuAdresy);
 
         menuZakoncz.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menuZakoncz.setText("Zakończ");
@@ -560,6 +627,10 @@ public class StartFrame extends javax.swing.JFrame {
         initTable();
     }//GEN-LAST:event_bUsunActionPerformed
 
+    private void menuAdresyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAdresyActionPerformed
+       af.setVisible(true);
+    }//GEN-LAST:event_menuAdresyActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -622,6 +693,7 @@ public class StartFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JMenuItem menuAdresy;
     private javax.swing.JMenuItem menuHotele;
     private javax.swing.JMenuItem menuKlienci;
     private javax.swing.JMenuItem menuPokoje;
