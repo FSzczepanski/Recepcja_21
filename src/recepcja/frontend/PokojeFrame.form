@@ -288,7 +288,7 @@
                 <Column editable="false" title="Numer pokoju" type="java.lang.Integer"/>
                 <Column editable="false" title="Pi&#x119;tro" type="java.lang.Integer"/>
                 <Column editable="false" title="Ilo&#x15b;&#x107; os&#xf3;b" type="java.lang.Integer"/>
-                <Column editable="true" title="Prywatna &#x142;azienka" type="java.lang.Boolean"/>
+                <Column editable="false" title="Prywatna &#x142;azienka" type="java.lang.Boolean"/>
                 <Column editable="false" title="Cena za dob&#x119;" type="java.lang.Integer"/>
               </Table>
             </Property>
