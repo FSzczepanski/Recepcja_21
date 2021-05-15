@@ -41,21 +41,28 @@ public class PokojeFrame extends javax.swing.JFrame {
         
         bd = new BazaDanychPokoje();
         initTable();
-        initComboBoxes();
     }
 
         private void initTable(){
         pokoje = bd.pobierzPokoje();
-        DefaultTableModel model = (DefaultTableModel) tablePokoje.getModel();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         for (Pokoj pokoj: pokoje) {
-            Object[] row = {hotel.getId(),hotel.getNazwaHotelu(),hotel.getMiasto(), hotel.getLiczbaGwiazdek(),
-                hotel.isCalodobowaRecepcja(), hotel.isBasen()};
+            Object[] row = {pokoj.getId(),pokoj.getHotel(),pokoj.getNumerPokoju(), pokoj.getPietro(),
+                pokoj.getIloscOsob(), pokoj.isPrywatnaLazienka(), pokoj.getCenaZaDobe()};
             
              model.addRow(row);
-        }
-       
+        } 
     }
     
+          private void clearTable(){
+        DefaultTableModel dm = (DefaultTableModel) jTable1.getModel();
+        int rowCount = dm.getRowCount();
+        
+        for (int i = rowCount - 1; i >= 0; i--) {
+            dm.removeRow(i);
+            }
+        }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -83,7 +90,7 @@ public class PokojeFrame extends javax.swing.JFrame {
         eIloscOsob = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         eCenaZaDobe = new javax.swing.JTextField();
-        comboPokoje = new javax.swing.JComboBox<>();
+        eIdHotelu = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -114,7 +121,7 @@ public class PokojeFrame extends javax.swing.JFrame {
 
         jLabel5.setText("Prywatna łazienka");
 
-        jLabel1.setText("Hotel");
+        jLabel1.setText("ID hotelu");
 
         cbPrywatnaLazienka.setToolTipText("");
         cbPrywatnaLazienka.addActionListener(new java.awt.event.ActionListener() {
@@ -163,9 +170,9 @@ public class PokojeFrame extends javax.swing.JFrame {
             }
         });
 
-        comboPokoje.addActionListener(new java.awt.event.ActionListener() {
+        eIdHotelu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboPokojeActionPerformed(evt);
+                eIdHoteluActionPerformed(evt);
             }
         });
 
@@ -186,7 +193,7 @@ public class PokojeFrame extends javax.swing.JFrame {
         jDesktopPane1.setLayer(eIloscOsob, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(eCenaZaDobe, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(comboPokoje, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(eIdHotelu, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -229,7 +236,7 @@ public class PokojeFrame extends javax.swing.JFrame {
                             .addComponent(eNumerPokoju, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
                             .addComponent(ePietro)
                             .addComponent(eIloscOsob)
-                            .addComponent(comboPokoje, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(eIdHotelu, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
                         .addGap(22, 22, 22))
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
                         .addComponent(jLabel8)
@@ -245,7 +252,7 @@ public class PokojeFrame extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(comboPokoje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(eIdHotelu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -281,15 +288,30 @@ public class PokojeFrame extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Numer pokoju", "Piętro", "Ilość osób", "Prywatna łazienka", "Cena za dobę"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -318,30 +340,29 @@ public class PokojeFrame extends javax.swing.JFrame {
 
     private void bDodajPokojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDodajPokojActionPerformed
         clearTable();
-        bd.dodajHotel(eIdHotelu.getText(), eNumerPokoju.getText(),Integer.parseInt(ePietro.getText()),
-            cbCalodobowaRecepcja.isSelected(), cbPrywatnaLazienka.isSelected());
+        bd.dodajPokoj(Integer.parseInt(eIdHotelu.getText()), Integer.parseInt(eNumerPokoju.getText()),
+                Integer.parseInt(ePietro.getText()),Integer.parseInt(eIloscOsob.getText()),
+                cbPrywatnaLazienka.isSelected(), Integer.parseInt(eCenaZaDobe.getText()));
         initTable();
     }//GEN-LAST:event_bDodajPokojActionPerformed
 
     private void bEdytujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEdytujActionPerformed
         clearTable();
-        bd.modyfikujHotel(Integer.parseInt(eID.getText()), eIdHotelu.getText(), eNumerPokoju.getText(),Integer.parseInt(ePietro.getText()),
-            cbCalodobowaRecepcja.isSelected(), cbPrywatnaLazienka.isSelected());
+        bd.modyfikujPokoj(Integer.parseInt(eID.getText()), Integer.parseInt(eIdHotelu.getText()),
+                Integer.parseInt(eNumerPokoju.getText()),Integer.parseInt(ePietro.getText()),
+                Integer.parseInt(eIloscOsob.getText()), cbPrywatnaLazienka.isSelected(),
+                Integer.parseInt(eCenaZaDobe.getText()));
         initTable();
     }//GEN-LAST:event_bEdytujActionPerformed
 
     private void bUsunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUsunActionPerformed
         clearTable();
-        bd.usunHotel(Integer.parseInt(eID.getText()));
+        bd.usunPokoj(Integer.parseInt(eID.getText()));
         initTable();
     }//GEN-LAST:event_bUsunActionPerformed
 
-    private void comboPokojeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPokojeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboPokojeActionPerformed
-
     private void eNumerPokojuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eNumerPokojuActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_eNumerPokojuActionPerformed
 
     private void ePietroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ePietroActionPerformed
@@ -363,6 +384,10 @@ public class PokojeFrame extends javax.swing.JFrame {
     private void eIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_eIDActionPerformed
+
+    private void eIdHoteluActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eIdHoteluActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eIdHoteluActionPerformed
 
     /**
      * @param args the command line arguments
@@ -404,9 +429,9 @@ public class PokojeFrame extends javax.swing.JFrame {
     private javax.swing.JButton bEdytuj;
     private javax.swing.JButton bUsun;
     private javax.swing.JCheckBox cbPrywatnaLazienka;
-    private javax.swing.JComboBox<String> comboPokoje;
     private javax.swing.JTextField eCenaZaDobe;
     private javax.swing.JTextField eID;
+    private javax.swing.JTextField eIdHotelu;
     private javax.swing.JTextField eIloscOsob;
     private javax.swing.JTextField eNumerPokoju;
     private javax.swing.JTextField ePietro;
