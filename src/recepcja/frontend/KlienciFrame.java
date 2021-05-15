@@ -5,17 +5,23 @@
  */
 package recepcja.frontend;
 
+import recepcja.backend.BazaDanychKlienci;
+import recepcja.entities.Klient;
+
 /**
  *
  * @author Filip Szczepanski
  */
 public class KlienciFrame extends javax.swing.JFrame {
+    
+    BazaDanychKlienci bd;
 
     /**
      * Creates new form KlienciFrame
      */
     public KlienciFrame() {
         initComponents();
+        bd = new BazaDanychKlienci();
     }
 
     /**
@@ -27,19 +33,179 @@ public class KlienciFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        eImie = new javax.swing.JTextField();
+        eNazwisko = new javax.swing.JTextField();
+        eNumerTelefonu = new javax.swing.JTextField();
+        eIDKlienta = new javax.swing.JTextField();
+        bDodajKlienta = new javax.swing.JButton();
+        bEdytujKlienta = new javax.swing.JButton();
+        bUsunKlienta = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        eIDAdresu = new javax.swing.JTextField();
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel1.setText("Dodaj Klienta");
+
+        jLabel2.setText("Imię");
+
+        jLabel3.setText("Nazwisko");
+
+        jLabel5.setText("Numer Telefonu");
+
+        jLabel6.setText("Podaj ID");
+
+        bDodajKlienta.setText("Dodaj");
+        bDodajKlienta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDodajKlientaActionPerformed(evt);
+            }
+        });
+
+        bEdytujKlienta.setText("Edytuj");
+        bEdytujKlienta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEdytujKlientaActionPerformed(evt);
+            }
+        });
+
+        bUsunKlienta.setText("Usuń");
+        bUsunKlienta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bUsunKlientaActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID Klienta", "ID Adresu", "Imię", "Nazwisko", "Numer Telefonu"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel7.setText("ID Adresu");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addComponent(bDodajKlienta))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addComponent(bEdytujKlienta))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel6))
+                            .addComponent(jLabel2))
+                        .addGap(68, 68, 68)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(bUsunKlienta)
+                                .addComponent(eNumerTelefonu, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                                .addComponent(eIDAdresu)
+                                .addComponent(eImie)
+                                .addComponent(eNazwisko))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(eIDKlienta, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(25, 25, 25))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel7))
+                .addGap(83, 83, 83))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(79, 79, 79)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(eIDAdresu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(eImie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(eNazwisko, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(eNumerTelefonu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(34, 34, 34)
+                        .addComponent(bDodajKlienta)
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(eIDKlienta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bEdytujKlienta)
+                            .addComponent(bUsunKlienta))))
+                .addContainerGap(147, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bDodajKlientaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDodajKlientaActionPerformed
+        // TODO add your handling code here:
+        bd.dodajKlienta(Integer.parseInt(eIDAdresu.getText()),eImie.getText(), eNazwisko.getText(), eNumerTelefonu.getText());
+    }//GEN-LAST:event_bDodajKlientaActionPerformed
+
+    private void bEdytujKlientaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEdytujKlientaActionPerformed
+        // TODO add your handling code here:
+        bd.modyfikujKlienta(Integer.parseInt(eIDKlienta.getText()),Integer.parseInt(eIDAdresu.getText()), eImie.getText(), eNazwisko.getText(), eNumerTelefonu.getText());
+    }//GEN-LAST:event_bEdytujKlientaActionPerformed
+
+    private void bUsunKlientaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUsunKlientaActionPerformed
+        // TODO add your handling code here:
+        bd.usunKlienta(Integer.parseInt(eIDKlienta.getText()));
+    }//GEN-LAST:event_bUsunKlientaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -77,5 +243,21 @@ public class KlienciFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bDodajKlienta;
+    private javax.swing.JButton bEdytujKlienta;
+    private javax.swing.JButton bUsunKlienta;
+    private javax.swing.JTextField eIDAdresu;
+    private javax.swing.JTextField eIDKlienta;
+    private javax.swing.JTextField eImie;
+    private javax.swing.JTextField eNazwisko;
+    private javax.swing.JTextField eNumerTelefonu;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
