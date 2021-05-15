@@ -106,7 +106,7 @@ public class BazaDanychPokoje {
             procedura.setInt(4,pietro);
             procedura.setInt(5,ilosc_osob);
             procedura.setBoolean(6,prywatna_lazienka);
-            procedura.setInt(4,cena_za_dobe);
+            procedura.setInt(7,cena_za_dobe);
             procedura.execute();
       
             
